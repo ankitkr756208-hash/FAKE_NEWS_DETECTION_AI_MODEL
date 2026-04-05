@@ -1,0 +1,2 @@
+# FAKE_NEWS_DETECTION_AI_MODEL
+Fake_news_detector
