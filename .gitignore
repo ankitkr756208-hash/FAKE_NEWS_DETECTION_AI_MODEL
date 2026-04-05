@@ -46,3 +46,7 @@ Thumbs.db
 # Editor/IDE
 .idea/
 .vscode/
+
+# Large local datasets
+Fake.csv
+True.csv
