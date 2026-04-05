@@ -5,14 +5,14 @@ import plotly.express as px
 from datetime import datetime
 from time import sleep
 
-# ===================== LOAD MODEL =====================
+#  LOAD MODEL 
 vectorizer = joblib.load('vectorizer.jb')
 model = joblib.load('lr_model.jb')
 
-# ===================== PAGE CONFIG =====================
+#  PAGE CONFIG 
 st.set_page_config(page_title="Fake News Detector", page_icon="📰", layout="wide")
 
-# ===================== CLEAN UI =====================
+#  CLEAN UI 
 st.markdown("""
 <style>
 :root {
@@ -380,15 +380,15 @@ header[data-testid="stHeader"] > div:nth-child(2) {
 </style>
 """, unsafe_allow_html=True)
 
-# ===================== TITLE =====================
+#  TITLE 
 st.title("📰 Fake News Detection App")
 st.markdown("### 🔍 Analyze whether a news article is **Real or Fake**")
 
-# ===================== SESSION STATE =====================
+#  SESSION STATE 
 if "history" not in st.session_state:
     st.session_state.history = []
 
-# ===================== SIDEBAR =====================
+#  SIDEBAR 
 with st.sidebar:
     st.markdown("## ✨ Dashboard")
     st.caption("Bright glassmorphism analytics panel")
@@ -401,10 +401,10 @@ with st.sidebar:
         st.success("History cleared")
         st.rerun()
 
-# ===================== INPUT =====================
+#  INPUT 
 user_input = st.text_area("✍️ Enter News Article", height=200)
 
-# ===================== BUTTON =====================
+#  BUTTON 
 if st.button("🚀 Check News"):
     if user_input:
 
@@ -459,7 +459,7 @@ if st.button("🚀 Check News"):
         sleep(0.2)
         status_box.empty()
 
-        # ===================== RESULT =====================
+        #  RESULT 
         result = "REAL" if prediction[0] == 1 else "FAKE"
 
         if result == "REAL":
@@ -490,7 +490,7 @@ if st.button("🚀 Check News"):
         with col_fake:
             st.metric("FAKE Confidence", f"{fake_prob*100:.2f}%")
 
-        # ===================== PROGRESS BARS =====================
+        #  PROGRESS BARS 
         st.subheader("📊 Confidence Level")
         st.write("Real News Confidence")
         st.progress(real_prob)
@@ -498,7 +498,7 @@ if st.button("🚀 Check News"):
         st.write("Fake News Confidence")
         st.progress(fake_prob)
 
-        # ===================== DATA =====================
+        #  DATA 
         df = pd.DataFrame({
             "Category": ["Fake", "Real"],
             "Probability": [fake_prob, real_prob]
@@ -509,7 +509,7 @@ if st.button("🚀 Check News"):
             "Real": "#43d9ff"
         }
 
-        # ===================== PLOTLY BAR =====================
+        #  PLOTLY BAR 
         fig_bar = px.bar(
             df,
             x="Category",
@@ -560,7 +560,7 @@ if st.button("🚀 Check News"):
         )
         st.plotly_chart(fig_bar, use_container_width=True)
 
-        # ===================== PLOTLY PIE =====================
+        #  PLOTLY PIE 
         fig_pie = px.pie(
             df,
             names="Category",
@@ -595,7 +595,7 @@ if st.button("🚀 Check News"):
         )
         st.plotly_chart(fig_pie, use_container_width=True)
 
-        # ===================== SAVE HISTORY =====================
+        #  SAVE HISTORY 
         st.session_state.history.append({
             "Text": user_input[:100],
             "Result": result,
@@ -607,10 +607,10 @@ if st.button("🚀 Check News"):
     else:
         st.warning("⚠️ Please enter a news article")
 
-# ===================== TABS =====================
+#  TABS 
 tab1, tab2 = st.tabs(["📜 History", "📥 Download"])
 
-# ===================== HISTORY =====================
+#  HISTORY 
 with tab1:
     st.subheader("Prediction History")
     if st.session_state.history:
@@ -619,7 +619,7 @@ with tab1:
     else:
         st.info("No history yet")
 
-# ===================== DOWNLOAD =====================
+# DOWNLOAD 
 with tab2:
     if st.session_state.history:
         history_df = pd.DataFrame(st.session_state.history)
@@ -628,6 +628,6 @@ with tab2:
     else:
         st.info("Nothing to download yet")
 
-# ===================== FOOTER =====================
+#  FOOTER 
 st.markdown("---")
 st.markdown("💡 Built with ❤️ using Streamlit + Plotly")
